@@ -1,0 +1,53 @@
+import QtQuick 2.0
+import Sailfish.Silica 1.0
+import "pages"
+
+ApplicationWindow
+{
+    initialPage: Component { FirstPage { } }
+    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    allowedOrientations: defaultAllowedOrientations
+
+    Column {
+        width: parent.width
+        id: firstCol
+        ComboBox {
+            label: "Фрукты"
+            description: "Выберите фрукт"
+            menu: ContextMenu {
+                MenuItem { text: "Банан"}
+                MenuItem { text: "Яблоко"}
+                MenuItem { text: "Персик"}
+            }
+            onCurrentIndexChanged: {
+                if(currentIndex == 1){
+                    mute.enabled = false
+                    slid.enabled = false
+                }
+                else{
+                    mute.enabled = true
+                    slid.enabled = true
+                }
+            }
+
+            onCurrentItemChanged: console.log(currentItem.text);
+        }
+        Switch {
+            id: mute
+            //enabled: false
+            icon.source: "" + (checked ? Theme.highlightColor:Theme.primaryColor)
+        }
+        Label {
+            text: "The sound is " + (mute.checked ? "off":"on")
+        }
+        Slider {
+            id: slid
+            width: parent.width
+            label: "баланс наушников" + value
+            maximumValue: 100
+            minimumValue: -100
+            value: 0
+            stepSize: 5
+        }
+    }
+}

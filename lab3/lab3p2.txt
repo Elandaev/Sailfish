@@ -1,0 +1,51 @@
+import QtQuick 2.0
+import Sailfish.Silica 1.0
+import "pages"
+
+ApplicationWindow
+{
+    initialPage: Component { FirstPage { } }
+    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    allowedOrientations: defaultAllowedOrientations
+
+    Column {
+        width: parent.width
+        id: firstCol
+        ComboBox {
+            label: "Фрукты"
+            description: "Выберите фрукт"
+            menu: ContextMenu {
+                MenuItem { text: "Банан"}
+                MenuItem { text: "Яблоко"}
+                MenuItem { text: "Персик"}
+            }
+            onCurrentItemChanged: console.log(currentItem.text)
+        }
+        Switch {
+            id: mute
+            icon.source: "" + (checked ? Theme.highlightColor:Theme.primaryColor)
+        }
+        Label {
+            text: "The sound is " + (mute.checked ? "off":"on")
+        }
+        Slider {
+            width: parent.width
+            label: "баланс наушников" + value
+            maximumValue: 100
+            minimumValue: -100
+            value: 0
+            stepSize: 5
+        }
+    }
+    TimePicker {
+        anchors.top: firstCol.bottom
+        id: tp
+        time: new Time(2, 28)
+        Component.onCompleted: console.log(time)
+    }
+    Label {
+        anchors.centerIn: tp
+        text: tp.timeText
+        font.pixelSize: Theme.fontSizeExtraLarge
+    }
+}

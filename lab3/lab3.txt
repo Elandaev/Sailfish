@@ -1,0 +1,81 @@
+import QtQuick 2.0
+import Sailfish.Silica 1.0
+import "pages"
+
+ApplicationWindow
+{
+    initialPage: Component { FirstPage { } }
+    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    allowedOrientations: defaultAllowedOrientations
+    property int count: 1;
+
+    Column {
+        id: columnfirst
+        x: 210
+        Button {
+            id: testonclick
+            text: "кнопка"
+            //onClicked: {
+            //    count++
+            //    if (count % 2 == 0) {
+            //        labeltestdown.text = "нажата";
+            //        backgroundColor = "green";
+            //        color = "red";
+            //    }
+            //    else {
+            //        labeltestdown.text = "Отпущена";
+            //        backgroundColor = "white";
+            //        color = "blue";
+            //    }
+            //}
+            onClicked: {
+                count++
+                if (count % 2 == 0) {
+                    labeltestdown.text = "нажата";
+                    down = true;
+                }
+                else {
+                    labeltestdown.text = "Отпущена";
+                    down = false;
+                }
+            }
+        }
+
+        Label {
+            id: labeltestdown
+            anchors.horizontalCenter: parent.horizontalCenter;
+            text: "не нажата"
+        }
+    }
+    Column {
+        id: columnsecond
+        anchors.top: columnfirst.bottom
+        width: parent.width
+        Button {
+            property int countclick: 0;
+            text: "Счётчик"
+            onClicked: {
+                countclick ++;
+                text = "Счётчик: " +  countclick;
+            }
+        }
+        ValueButton {
+            property int countclick: 0
+            label: "Счётчик"
+            //TruncationMode: TruncationMode.
+            description: "Считает количество нажатий"
+            value: countclick
+            onClicked: countclick++
+        }
+    }
+    Column {
+        anchors.top: columnsecond.bottom
+        DatePicker {
+            id: datePicker
+            date: new Date(2021, 04, 07, 12, 0, 0)
+            daysVisible: true
+            monthYearVisible: true
+            Component.onCompleted: console.log(date)
+        }
+    }
+}
